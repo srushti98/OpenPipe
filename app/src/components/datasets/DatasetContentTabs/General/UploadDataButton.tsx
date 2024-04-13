@@ -24,7 +24,7 @@ import { FaReadme } from "react-icons/fa";
 import { useDataset, useHandledAsyncCallback, useSelectedProject } from "~/utils/hooks";
 import { api } from "~/utils/api";
 import ActionButton from "~/components/ActionButton";
-import { uploadDatasetEntryFile } from "~/utils/azure/website";
+import { uploadDatasetEntryFile } from "~/utils/aws/website";
 import { formatFileSize } from "~/utils/utils";
 import ConditionallyEnable from "~/components/ConditionallyEnable";
 import {

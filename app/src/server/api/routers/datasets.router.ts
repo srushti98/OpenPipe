@@ -9,6 +9,7 @@ import { kysely, prisma } from "~/server/db";
 import { requireCanModifyProject, requireCanViewProject } from "~/utils/accessControl";
 import { error, success } from "~/utils/errorHandling/standardResponses";
 import { generateBlobUploadUrl } from "~/utils/azure/server";
+import { generateAWSBlobUploadUrl } from "~/utils/aws/server";
 import { env } from "~/env.mjs";
 import { comparisonModels } from "~/utils/comparisonModels";
 import { filtersSchema } from "~/types/shared.types";
@@ -344,6 +345,16 @@ export const datasetsRouter = createTRPCRouter({
       return {
         serviceClientUrl,
         containerName: env.AZURE_STORAGE_CONTAINER_NAME,
+      };
+    }),
+   getAWSServiceClientUrl : protectedProcedure
+    .input(z.object({ projectId: z.string(), blobName: z.string()}))
+    .query(async ({ input, ctx }) => {
+      await requireCanModifyProject(input.projectId, ctx);
+      const serviceClientUrl = await generateAWSBlobUploadUrl(input.blobName);
+      return {
+        serviceClientUrl,
+        containerName: env.AWS_BUCKET_NAME,
       };
     }),
   triggerFileDownload: protectedProcedure

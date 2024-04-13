@@ -1,7 +1,7 @@
 import { type Prisma } from "@prisma/client";
 
 import { prisma } from "~/server/db";
-import { downloadBlobToStrings } from "~/utils/azure/server";
+import { downloadBlobToStrings } from "~/utils/aws/server";
 import {
   isParseError,
   isRowToImport,
